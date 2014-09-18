@@ -8,7 +8,7 @@ import typeschema
 _builtin_property = property
 
 
-def property(name, schema, default=None, check=typeschema.check):
+class property(_builtin_property):
     """
     Defines a property for a class whose setter checks the input.
 
@@ -29,17 +29,25 @@ def property(name, schema, default=None, check=typeschema.check):
     <BLANKLINE>
     On instance:
         '123'
+    >>> MyClass.my_attr.schema
+    {'type': 'integer'}
     """
-    def getter(self):
-        return self.__dict__.get(name, default)
+    def __init__(self, name, schema, default=None, check=typeschema.check):
+        self.name = name
+        self.schema = schema
+        self.default = default
+        self.check = check
+        if default is not None:
+            check(default, schema)
 
-    def setter(self, value):
-        check(value, schema)
-        self.__dict__[name] = value
+        def getter(self):
+            return self.__dict__.get(name, default)
 
-    if default is not None:
-        check(default, schema)
-    return _builtin_property(getter, setter)
+        def setter(self, value):
+            check(value, schema)
+            self.__dict__[name] = value
+
+        super(property, self).__init__(getter, setter)
 
 
 def int(name, default=None):
