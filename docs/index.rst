@@ -1,0 +1,6 @@
+**********
+typeschema
+**********
+
+.. automodule:: typeschema
+   :members:
