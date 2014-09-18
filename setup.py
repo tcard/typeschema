@@ -24,6 +24,7 @@ setup(
     url='https://github.com/Tyba/typeschema',
     packages=[
         'typeschema',
+        'typeschema.properties'
     ],
     install_requires=[
         'jsonschema == 2.4.0'  # test

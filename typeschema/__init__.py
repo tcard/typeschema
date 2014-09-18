@@ -117,38 +117,6 @@ def check(value, schema):
     checker.check(value, schema)
 
 
-def checked_property(name, schema, check=check):
-    """
-    Defines a property for a class whose setter checks the input.
-
-    >>> class MyClass(object):
-    ...     my_attr = checked_property('my_attr', {'type': 'integer'})
-    ...
-    >>> my = MyClass()
-    >>> my.my_attr = 123
-    >>> my.my_attr
-    123
-    >>> my.my_attr = '123'
-    Traceback (most recent call last):
-        ...
-    ValidationError: '123' is not of type 'integer'
-    <BLANKLINE>
-    Failed validating 'type' in schema:
-        {'type': 'integer'}
-    <BLANKLINE>
-    On instance:
-        '123'
-    """
-    def getter(self):
-        return self.__dict__.get(name)
-
-    def setter(self, value):
-        check(value, schema)
-        self.__dict__[name] = value
-
-    return property(getter, setter)
-
-
 def check_args(schemas, check_function=check):
     """
     Decorate a function, checking the schema of its arguments.
