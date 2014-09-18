@@ -225,3 +225,8 @@ class ArgValidationError(Exception):
         msg = "Value passed to argument '%s' is not valid.\n%s"
         super(ArgValidationError, self).__init__(msg % (arg_name, cause))
         self.cause = cause
+
+ValidationError = js.ValidationError
+SchemaError = js.SchemaError
+FormatError = js.FormatError
+UnknownType = js.validators.UnknownType
