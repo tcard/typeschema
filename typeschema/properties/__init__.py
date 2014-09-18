@@ -104,6 +104,33 @@ def string(name, default=None):
                     ]}, default=default)
 
 
+def bool(name, default=None):
+    """
+    Defines a property for a class whose setter checks that the input is a
+    boolean or None.
+
+    >>> class MyClass(object):
+    ...     my_attr = bool('my_attr', default=True)
+    >>> my = MyClass()
+    >>> my.my_attr
+    True
+    >>> my.my_attr = 123
+    Traceback (most recent call last):
+        ...
+    ValidationError: 123 is not valid under any of the given schemas
+    <BLANKLINE>
+    Failed validating 'anyOf' in schema:
+        {'anyOf': [{'type': 'boolean'}, {'type': 'null'}]}
+    <BLANKLINE>
+    On instance:
+        123
+    """
+    return property(name, {'anyOf': [
+                    {'type': 'boolean'},
+                    {'type': 'null'}
+                    ]}, default=default)
+
+
 def list(name, default=None):
     """
     Defines a property for a class whose setter checks that the input is a
