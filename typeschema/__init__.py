@@ -77,7 +77,15 @@ class Checker(object):
         else:
             check = self.check
 
+            # The jsonschema library only lets you define custom types with
+            # Python types, that is, you have to pass a class or a type.
+            # But we want to define new types with JSON schemas.
+            # This creates a dummy type that overrides isinstance so that
+            # when jsonschema checks if a value is an instance of this type,
+            # a normal check happens with that value against the provided
+            # schema.
             # Sorry for the black magic.
+
             class DefinedTypeMeta(type):
                 def __instancecheck__(self, value):
                     try:
@@ -160,8 +168,8 @@ def check_args(schemas, check_function=check):
     ...     print "foo: %r, bar: %r, baz: %r, qux: %r" % (foo, bar, baz, qux)
     >>> my_function(123, 456)
     foo: 123, bar: 456, baz: 123, qux: '456'
-    >>> my_function(123, '456')
-    foo: 123, bar: '456', baz: 123, qux: '456'
+    >>> my_function(123, '456', qux='789')
+    foo: 123, bar: '456', baz: 123, qux: '789'
     >>> my_function(123, '456', '789')
     Traceback (most recent call last):
         ...
