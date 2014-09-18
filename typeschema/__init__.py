@@ -83,7 +83,7 @@ class Checker(object):
             # This creates a dummy type that overrides isinstance so that
             # when jsonschema checks if a value is an instance of this type,
             # a normal check happens with that value against the provided
-            # schema.
+            # schema.
             # Sorry for the black magic.
 
             class DefinedTypeMeta(type):
@@ -139,17 +139,12 @@ def checked_property(name, schema, check=check):
     On instance:
         '123'
     """
-    def _ensure_defined(self):
-        if not '_' + name in self.__dict__:
-            setattr(self, '_' + name, None)
-
     def getter(self):
-        _ensure_defined(self)
-        return getattr(self, '_' + name)
+        return self.__dict__.get(name)
 
     def setter(self, value):
         check(value, schema)
-        setattr(self, '_' + name, value)
+        self.__dict__[name] = value
 
     return property(getter, setter)
 
