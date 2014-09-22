@@ -1,0 +1,15 @@
+commands:
+    - sudo python setup.py develop
+    - py.test
+    - sphinx-build -b html ./docs /var/www/docs/typeschema/ > /dev/null
+
+environment:
+  language: java
+
+build:
+  checkout:
+    - echo "Skippped"
+  info:
+    - echo "Skippped"
+  run:
+    - echo "Skippped"
