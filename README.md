@@ -1,16 +1,11 @@
-typeschema
+typeschema [![Build Status](http://ci.tyba.cc/buildStatus/icon?job=Tyba/typeschema)](http://ci.tyba.cc/job/Tyba/job/typeschema/lastBuild/console) [![online documention](http://b.repl.ca/v1/online-documention-blue.png)](http://tyba:tyb4d0cs@docs.tyba.cc/typeschema/)
 ===========
 
-[![Build Status](http://ci.tyba.cc/buildStatus/icon?job=Tyba/typeschema)](http://ci.tyba.cc/job/Tyba/job/typeschema/) [![online documention](http://b.repl.ca/v1/online-documention-blue.png)](http://tyba:tyb4d0cs@docs.tyba.cc/typeschema/)
 
 Requirements
 ------------
 
-* persistence == 0.1.0
-* typeschema == 0.0.1
-* knot == 0.3.0
-* slug == 1.0.0
-* mock == 1.0.1
+* jsonschema == 2.4.0
 
 Packages
 --------
@@ -41,14 +36,12 @@ At your setup.py add:
 ```python
 setup(
     ...
-    dependency_links=[
-        'http://github.com/Tyba/typeschema/tarball/master#egg=typeschema-<version>'
-    ],
-    install_requires=[
+    install_requires=dependency_links([
         ...
-        'typeschema == <version>',
+        'http://github.com/Tyba/typeschema/tarball/master#egg=typeschema==<version>'
         ...
-    ]
+    ])
+)
 ```
 
 Documentation
