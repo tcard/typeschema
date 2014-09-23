@@ -61,12 +61,13 @@ def check_args(schemas, check_function=typeschema.check):
                                 arg_name)
 
         # Check the types of the default values of the function.
-        defaulted_args = arg_names.args[-len(arg_names.defaults):]
-        i = 0
-        while i < len(defaulted_args):
-            arg_name, def_value = defaulted_args[i], arg_names.defaults[i]
-            _check_if_in_schemas(arg_name, def_value)
-            i += 1
+        if arg_names.defaults:
+            defaulted_args = arg_names.args[-len(arg_names.defaults):]
+            i = 0
+            while i < len(defaulted_args):
+                arg_name, def_value = defaulted_args[i], arg_names.defaults[i]
+                _check_if_in_schemas(arg_name, def_value)
+                i += 1
 
         def call(*args, **kwargs):
             # Check positional arguments.
