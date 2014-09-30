@@ -50,7 +50,7 @@ class property(_builtin_property):
         super(property, self).__init__(getter, setter)
 
 
-def int(name, default=None):
+class int(property):
     """
     Defines a property for a class whose setter checks that the input is an
     integer or None.
@@ -71,13 +71,14 @@ def int(name, default=None):
     On instance:
         '123'
     """
-    return property(name, {'anyOf': [
-                    {'type': 'integer'},
-                    {'type': 'null'}
-                    ]}, default=default)
+    def __init__(self, name, default=None):
+        super(int, self).__init__(name, {'anyOf': [
+            {'type': 'integer'},
+            {'type': 'null'}
+        ]}, default=default)
 
 
-def string(name, default=None):
+class string(property):
     """
     Defines a property for a class whose setter checks that the input is a
     string or None.
@@ -98,13 +99,14 @@ def string(name, default=None):
     On instance:
         123
     """
-    return property(name, {'anyOf': [
-                    {'type': 'string'},
-                    {'type': 'null'}
-                    ]}, default=default)
+    def __init__(self, name, default=None):
+        super(string, self).__init__(name, {'anyOf': [
+            {'type': 'string'},
+            {'type': 'null'}
+        ]}, default=default)
 
 
-def bool(name, default=None):
+class bool(property):
     """
     Defines a property for a class whose setter checks that the input is a
     boolean or None.
@@ -125,13 +127,14 @@ def bool(name, default=None):
     On instance:
         123
     """
-    return property(name, {'anyOf': [
-                    {'type': 'boolean'},
-                    {'type': 'null'}
-                    ]}, default=default)
+    def __init__(self, name, default=None):
+        super(bool, self).__init__(name, {'anyOf': [
+            {'type': 'boolean'},
+            {'type': 'null'}
+        ]}, default=default)
 
 
-def list(name, default=None):
+class list(property):
     """
     Defines a property for a class whose setter checks that the input is a
     list or None.
@@ -156,7 +159,8 @@ def list(name, default=None):
     On instance:
         '123'
     """
-    return property(name, {'anyOf': [
-                    {'type': 'array'},
-                    {'type': 'null'}
-                    ]}, default=default)
+    def __init__(self, name, default=None):
+        super(list, self).__init__(name, {'anyOf': [
+            {'type': 'array'},
+            {'type': 'null'}
+        ]}, default=default)
