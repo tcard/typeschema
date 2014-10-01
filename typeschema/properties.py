@@ -164,3 +164,36 @@ class list(property):
             {'type': 'array'},
             {'type': 'null'}
         ]}, default=default)
+
+
+class enum(property):
+    """
+    Defines a property for a class whose setter checks that the input is an
+    enum or None.
+
+    >>> class MyClass(object):
+    ...     my_attr = enum('my_attr', ['a', 'b', 'C'])
+    >>> my = MyClass()
+    >>> my.my_attr
+    >>> my.my_attr = 'c'
+    Traceback (most recent call last):
+        ...
+    ValidationError: 'c' is not valid under any of the given schemas
+    <BLANKLINE>
+    Failed validating 'anyOf' in schema:
+        {'anyOf': [{'enum': ['a', 'b', 'C']}, {'type': 'null'}]}
+    <BLANKLINE>
+    On instance:
+        'c'
+    >>> my.my_attr = None
+    >>> my.my_attr
+    >>> my.my_attr = 'C'
+    >>> my.my_attr
+    'C'
+    """
+    def __init__(self, name, values, default=None):
+        super(enum, self).__init__(name, {'anyOf': [
+            {'enum': values},
+            {'type': 'null'}
+        ]}, default=default)
+
