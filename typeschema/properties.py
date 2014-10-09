@@ -196,4 +196,3 @@ class enum(property):
             {'enum': values},
             {'type': 'null'}
         ]}, default=default)
-

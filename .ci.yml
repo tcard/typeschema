@@ -1,9 +1,8 @@
 commands:
     - sudo python setup.py develop
-    - py.test
-    - sphinx-build -b html ./docs /var/www/docs/typeschema/ > /dev/null
-    - mkdir -p /var/www/coverage/typeschema
+    - mkdir -p /var/www/coverage/typeschema/`git rev-parse --abbrev-ref HEAD`
     - py.test --cov=. --cov-report=html && mv htmlcov/* /var/www/coverage/typeschema/`git rev-parse --abbrev-ref HEAD`/
+    - sphinx-build -b html ./docs /var/www/docs/typeschema/ > /dev/null
 
 environment:
   language: java
