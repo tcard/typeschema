@@ -2,8 +2,15 @@
 typeschema
 **********
 
-.. automodule:: typeschema
+.. automodule:: typeschema.typeschema
    :members:
+
+*********************
+typeschema.decorators
+*********************
+
+.. automodule:: typeschema.decorators
+	:members:
 
 *********************
 typeschema.properties
