@@ -50,7 +50,35 @@ class property(_builtin_property):
         super(property, self).__init__(getter, setter)
 
 
-class int(property):
+class nullable(property):
+    """
+    Defines a property for a class whose setter checks that the input is an
+    integer or None.
+
+    >>> class MyClass(object):
+    ...     my_attr = int('my_attr', default=123)
+    >>> my = MyClass()
+    >>> my.my_attr
+    123
+    >>> my.my_attr = '123'
+    Traceback (most recent call last):
+        ...
+    ValidationError: '123' is not valid under any of the given schemas
+    <BLANKLINE>
+    Failed validating 'anyOf' in schema:
+        {'anyOf': [{'type': 'integer'}, {'type': 'null'}]}
+    <BLANKLINE>
+    On instance:
+        '123'
+    """
+    def __init__(self, name, internal_type, default=None, check=typeschema.check):
+        super(nullable, self).__init__(name, {'anyOf': [
+            {'type': internal_type},
+            {'type': 'null'}
+        ]}, default=default, check=check)
+
+
+class int(nullable):
     """
     Defines a property for a class whose setter checks that the input is an
     integer or None.
@@ -72,13 +100,10 @@ class int(property):
         '123'
     """
     def __init__(self, name, default=None):
-        super(int, self).__init__(name, {'anyOf': [
-            {'type': 'integer'},
-            {'type': 'null'}
-        ]}, default=default)
+        super(int, self).__init__(name, 'integer', default=default)
 
 
-class string(property):
+class string(nullable):
     """
     Defines a property for a class whose setter checks that the input is a
     string or None.
@@ -100,13 +125,10 @@ class string(property):
         123
     """
     def __init__(self, name, default=None):
-        super(string, self).__init__(name, {'anyOf': [
-            {'type': 'string'},
-            {'type': 'null'}
-        ]}, default=default)
+        super(string, self).__init__(name, 'string', default=default)
 
 
-class bool(property):
+class bool(nullable):
     """
     Defines a property for a class whose setter checks that the input is a
     boolean or None.
@@ -128,13 +150,10 @@ class bool(property):
         123
     """
     def __init__(self, name, default=None):
-        super(bool, self).__init__(name, {'anyOf': [
-            {'type': 'boolean'},
-            {'type': 'null'}
-        ]}, default=default)
+        super(bool, self).__init__(name, 'boolean', default=default)
 
 
-class list(property):
+class list(nullable):
     """
     Defines a property for a class whose setter checks that the input is a
     list or None.
@@ -160,10 +179,7 @@ class list(property):
         '123'
     """
     def __init__(self, name, default=None):
-        super(list, self).__init__(name, {'anyOf': [
-            {'type': 'array'},
-            {'type': 'null'}
-        ]}, default=default)
+        super(list, self).__init__(name, 'array', default=default)
 
 
 class enum(property):
