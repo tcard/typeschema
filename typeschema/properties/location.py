@@ -11,7 +11,7 @@ check = checker.check
 class country(typeschema.properties.nullable):
     """
     Defines a property for a class whose setter checks that the input is an
-    country or None.
+    country (check typeschema.types.location for reference) or None.
 
     >>> class MyClass(object):
     ...     my_attr = country('my_attr', default='Spain')
@@ -56,7 +56,7 @@ class country(typeschema.properties.nullable):
 class city(typeschema.properties.nullable):
     """
     Defines a property for a class whose setter checks that the input is an
-    city or None.
+    city (check typeschema.types.location for reference) or None.
 
     >>> class MyClass(object):
     ...     my_attr = city('my_attr', default={'name': 'Madrid', 'country': 'Spain'})

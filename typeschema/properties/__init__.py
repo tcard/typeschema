@@ -72,8 +72,8 @@ class property(_builtin_property):
 
 class nullable(property):
     """
-    Defines a property for a class whose setter checks that the input is an
-    integer or None.
+    Defines a nullable property for a class whose setter checks the input.
+
 
     >>> class MyClass(object):
     ...     my_attr = int('my_attr', default=123)

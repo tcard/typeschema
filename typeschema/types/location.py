@@ -1,5 +1,8 @@
 """
-location related types
+location related types:
+
+* country: the city is a string contained in the following list: http://en.wikipedia.org/wiki/List_of_sovereign_states_and_dependent_territories_by_continent_(data_file)
+* city: is a dict with name key and country key. The name could be any string.
 
 >>> from typeschema import Checker
 >>> checker = Checker()
