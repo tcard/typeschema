@@ -47,7 +47,27 @@ class property(_builtin_property):
             check(value, schema)
             self.__dict__[name] = value
 
-        super(property, self).__init__(getter, setter)
+        super(property, self).__init__(self._get_getter(), self._get_setter())
+
+    def _get_getter(self):
+        name = self.name
+        default = self.default
+
+        def getter(self):
+            return self.__dict__.get(name, default)
+
+        return getter
+
+    def _get_setter(self):
+        schema = self.schema
+        name = self.name
+        check = self.check
+
+        def setter(self, value):
+            check(value, schema)
+            self.__dict__[name] = value
+
+        return setter
 
 
 class nullable(property):

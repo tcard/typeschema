@@ -5,7 +5,7 @@ location related types
 >>> checker = Checker()
 >>> checker.extend(typeschema.types.location)
 >>> checker.check("China", {'type': 'country'})
->>> checker.check(["Madrid", "Spain"], {'type': 'city'})
+>>> checker.check({'name': 'Madrid', 'country': 'Spain'}, {'type': 'city'})
 >>> checker.check("Foo", {'type': 'country'})
 Traceback (most recent call last):
     ...
@@ -17,16 +17,16 @@ Failed validating 'type' in schema:
 On instance:
     'Foo'
 
->>> checker.check(["Madrid", "Foo"], {'type': 'city'})
+>>> checker.check({'name':'Madrid', 'country':'Foo'}, {'type': 'city'})
 Traceback (most recent call last):
     ...
-ValidationError: ['Madrid', 'Foo'] is not of type 'city'
+ValidationError: {'country': 'Foo', 'name': 'Madrid'} is not of type 'city'
 <BLANKLINE>
 Failed validating 'type' in schema:
     {'type': 'city'}
 <BLANKLINE>
 On instance:
-    ['Madrid', 'Foo']
+    {'country': 'Foo', 'name': 'Madrid'}
 """
 
 import typeschema
@@ -43,12 +43,10 @@ def is_country(value, definition):
 types = {
     'country': [{}, is_country],
     'city': [{
-        'type': 'array',
-        'items': [
-            {'type': 'string'},
-            {'type': 'country'},
-        ],
-        'minItems': 2,
-        'maxItems': 2,
-    }, None],
+        'type': 'object',
+        'properties': {
+            "name": {'type': 'string'},
+            "country": {'type': 'country'},
+        }
+    }],
 }
