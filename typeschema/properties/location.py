@@ -21,6 +21,11 @@ class country(typeschema.properties.nullable):
     'Spain'
     >>> my.my_attr.continent.name
     'Europe'
+    >>> my.my_attr = 'France'
+    >>> my_alt = MyClass()
+    >>> my_alt.my_attr = my.my_attr
+    >>> my_alt.my_attr.name
+    'France'
     >>> my.my_attr = 'Foo'
     Traceback (most recent call last):
         ...
@@ -52,6 +57,17 @@ class country(typeschema.properties.nullable):
             return datatypes.Country(country)
 
         return getter
+
+    def _get_setter(self):
+        parent_setter = super(country, self)._get_setter()
+
+        def setter(self, value):
+            if isinstance(value, datatypes.Country):
+                value = value.name
+
+            parent_setter(self, value)
+
+        return setter
 
 
 class city(typeschema.properties.nullable):

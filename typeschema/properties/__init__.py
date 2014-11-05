@@ -40,13 +40,6 @@ class property(_builtin_property):
         if default is not None:
             check(default, schema)
 
-        def getter(self):
-            return self.__dict__.get(name, default)
-
-        def setter(self, value):
-            check(value, schema)
-            self.__dict__[name] = value
-
         super(property, self).__init__(self._get_getter(), self._get_setter())
 
     def _get_getter(self):
