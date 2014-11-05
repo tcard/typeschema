@@ -8,7 +8,7 @@ location related types:
 >>> checker = Checker()
 >>> checker.extend(typeschema.types.location)
 >>> checker.check("China", {'type': 'country'})
->>> checker.check({'name': 'Madrid', 'country': 'Spain'}, {'type': 'city'})
+>>> checker.check(City('Madrid', 'Spain'), {'type': 'city'})
 >>> checker.check("Foo", {'type': 'country'})
 Traceback (most recent call last):
     ...
@@ -20,20 +20,30 @@ Failed validating 'type' in schema:
 On instance:
     'Foo'
 
->>> checker.check({'name':'Madrid', 'country':'Foo'}, {'type': 'city'})
+>>> checker.check(City('Madrid', 'Foo'), {'type': 'city'})
 Traceback (most recent call last):
     ...
-ValidationError: {'country': 'Foo', 'name': 'Madrid'} is not of type 'city'
+ValidationError: ['Madrid', 'Foo'] is not of type 'city'
 <BLANKLINE>
 Failed validating 'type' in schema:
     {'type': 'city'}
 <BLANKLINE>
 On instance:
-    {'country': 'Foo', 'name': 'Madrid'}
+    ['Madrid', 'Foo']
 """
 
 import typeschema
+import collections
 import incf.countryutils.datatypes as datatypes
+
+
+class City(collections.namedtuple('City', ['name', 'country'])):
+    @property
+    def country(self):
+        return datatypes.Country(self[1])
+
+    def to_validate(self):
+        return list(self)
 
 
 def is_country(value, definition):
@@ -43,13 +53,15 @@ def is_country(value, definition):
     datatypes.Country(value)
 
 
+def is_city(value, definition):
+    if len(value) != 2:
+        raise typeschema.ValidationError("")
+
+    is_country(value[1], definition)
+
+
 types = {
     'country': [{}, is_country],
-    'city': [{
-        'type': 'object',
-        'properties': {
-            "name": {'type': 'string'},
-            "country": {'type': 'country'},
-        }
-    }],
+    'city': [{}, is_city]
 }
+

@@ -1,5 +1,6 @@
 import typeschema.properties
 import typeschema.types.location
+from typeschema.types.location import City
 import incf.countryutils.datatypes as datatypes
 
 
@@ -59,24 +60,27 @@ class city(typeschema.properties.nullable):
     city (check typeschema.types.location for reference) or None.
 
     >>> class MyClass(object):
-    ...     my_attr = city('my_attr', default={'name': 'Madrid', 'country': 'Spain'})
+    ...     my_attr = city('my_attr', default=City('Madrid', 'Spain'))
     >>> my = MyClass()
-    >>> my.my_attr['name']
+    >>> my.my_attr.name
     'Madrid'
-    >>> my.my_attr['country'].name
+    >>> my.my_attr.country.name
     'Spain'
-    >>> my.my_attr['country'].continent.name
+    >>> my.my_attr.country.continent.name
     'Europe'
-    >>> my.my_attr = {'name': 'Madrid', 'country': 'Foo'}
+    >>> my.my_attr = ['Roma', 'Italy']
+    >>> my.my_attr.country.name
+    'Italy'
+    >>> my.my_attr = City('Madrid', 'Foo')
     Traceback (most recent call last):
         ...
-    ValidationError: {'country': 'Foo', 'name': 'Madrid'} is not valid under any of the given schemas
+    ValidationError: ['Madrid', 'Foo'] is not valid under any of the given schemas
     <BLANKLINE>
     Failed validating 'anyOf' in schema:
         {'anyOf': [{'type': 'city'}, {'type': 'null'}]}
     <BLANKLINE>
     On instance:
-        {'country': 'Foo', 'name': 'Madrid'}
+        ['Madrid', 'Foo']
     """
     def __init__(self, name, default=None):
         super(city, self).__init__(
@@ -95,10 +99,9 @@ class city(typeschema.properties.nullable):
             if not city:
                 return None
 
-            return {
-                "name": city['name'],
-                "country": datatypes.Country(city['country'])
-            }
+            if not isinstance(city, City):
+                return City(*city)
+
+            return city
 
         return getter
-

@@ -41,6 +41,10 @@ class Checker(object):
         Raises:
                 See the jsonschema documentation for validate.
         """
+
+        if "to_validate" in dir(value):
+            value = value.to_validate()
+
         self.validator(schema).validate(value)
 
     def define(self, name, definition, checker=None):
@@ -69,9 +73,6 @@ class Checker(object):
             definition: Either a JSON schema, or a custom Python type
                         (including classes).
         """
-        if isinstance(definition, type):
-            self.validator.DEFAULT_TYPES[unicode(name)] = definition
-            return
 
         if not checker:
             checker = self.check
