@@ -41,9 +41,13 @@ class Checker(object):
         Raises:
                 See the jsonschema documentation for validate.
         """
+
+        if "to_validate" in dir(value):
+            value = value.to_validate()
+
         self.validator(schema).validate(value)
 
-    def define(self, name, definition):
+    def define(self, name, definition, checker=None):
         """
         Define a custom type for this checker.
 
@@ -69,39 +73,64 @@ class Checker(object):
             definition: Either a JSON schema, or a custom Python type
                         (including classes).
         """
-        if isinstance(definition, type):
-            self.validator.DEFAULT_TYPES[unicode(name)] = definition
-        else:
-            check = self.check
 
-            # The jsonschema library only lets you define custom types with
-            # Python types, that is, you have to pass a class or a type.
-            # But we want to define new types with JSON schemas.
-            # This creates a dummy type that overrides isinstance so that
-            # when jsonschema checks if a value is an instance of this type,
-            # a normal check happens with that value against the provided
-            # schema.
-            # Sorry for the black magic.
+        if not checker:
+            checker = self.check
 
-            class DefinedTypeMeta(type):
-                def __instancecheck__(self, value):
-                    try:
-                        check(value, definition)
-                        return True
-                    except:
-                        return False
+        # The jsonschema library only lets you define custom types with
+        # Python types, that is, you have to pass a class or a type.
+        # But we want to define new types with JSON schemas.
+        # This creates a dummy type that overrides isinstance so that
+        # when jsonschema checks if a value is an instance of this type,
+        # a normal check happens with that value against the provided
+        # schema.
+        # Sorry for the black magic.
 
-            class DefinedType(object):
-                __metaclass__ = DefinedTypeMeta
+        class DefinedTypeMeta(type):
+            def __instancecheck__(self, value):
+                try:
+                    checker(value, definition)
+                    return True
+                except:
+                    return False
 
-            self.validator.DEFAULT_TYPES[unicode(name)] = DefinedType
+        class DefinedType(object):
+            __metaclass__ = DefinedTypeMeta
+
+        self.validator.DEFAULT_TYPES[unicode(name)] = DefinedType
+
+    def extend(self, module):
+        """
+        Extends the checker defining the types from the module.
+
+        >>> module = {'types': {'foo', [{'type': 'integer', 'minimum': 10}]}}
+        >>> checker = Checker()
+        >>> checker.extend(module)
+        >>> checker.check(2, {'type': 'foo'})
+        >>> checker.check(5, {'type': 'foo'})
+        Traceback (most recent call last):
+            ...
+        ValidationError: 5 is not of type 'my_type'
+        <BLANKLINE>
+        Failed validating 'type' in schema:
+            {'type': 'my_type'}
+        <BLANKLINE>
+        On instance:
+            5
+
+        Args:
+            module: module with property types
+        """
+
+        for k in module.types.keys():
+            self.define(k, *module.types[k])
 
 
 class FrozenChecker(Checker):
     """
     A Checker that doesn't allow any further type definition.
     """
-    def define(self, name, schema):
+    def define(self, name, schema, check=None):
         raise Exception("can't add types to a frozen checker.")
 
 checker = FrozenChecker()
