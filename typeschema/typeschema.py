@@ -74,6 +74,10 @@ class Checker(object):
                         (including classes).
         """
 
+        if isinstance(definition, type):
+            self.validator.DEFAULT_TYPES[unicode(name)] = definition
+            return
+
         if not checker:
             checker = self.check
 
@@ -103,17 +107,18 @@ class Checker(object):
         """
         Extends the checker defining the types from the module.
 
-        >>> module = {'types': {'foo', [{'type': 'integer', 'minimum': 10}]}}
+        >>> class MyModule:
+        ...     types = {'foo': [{'type': 'integer', 'minimum': 10}]}
         >>> checker = Checker()
-        >>> checker.extend(module)
-        >>> checker.check(2, {'type': 'foo'})
+        >>> checker.extend(MyModule)
+        >>> checker.check(20, {'type': 'foo'})
         >>> checker.check(5, {'type': 'foo'})
         Traceback (most recent call last):
             ...
-        ValidationError: 5 is not of type 'my_type'
+        ValidationError: 5 is not of type 'foo'
         <BLANKLINE>
         Failed validating 'type' in schema:
-            {'type': 'my_type'}
+            {'type': 'foo'}
         <BLANKLINE>
         On instance:
             5
