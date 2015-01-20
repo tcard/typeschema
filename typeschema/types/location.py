@@ -5,8 +5,9 @@ location related types:
 * city: is a dict with name key and country key. The name could be any string.
 
 >>> from typeschema import Checker
+>>> import typeschema.types.location
 >>> checker = Checker()
->>> checker.extend(typeschema.types.location)
+>>> checker.extend(typeschema.types.location.types)
 >>> checker.check("China", {'type': 'country'})
 >>> checker.check(City('Madrid', 'Spain'), {'type': 'city'})
 >>> checker.check("Foo", {'type': 'country'})
@@ -32,7 +33,6 @@ On instance:
     ['Madrid', 'Foo']
 """
 
-import typeschema
 import collections
 import incf.countryutils.datatypes as datatypes
 
@@ -46,22 +46,21 @@ class City(collections.namedtuple('City', ['name', 'country'])):
         return list(self)
 
 
-def is_country(value, definition):
+def is_country(value):
     if not isinstance(value, str):
-        raise typeschema.ValidationError("")
+        return False
 
-    datatypes.Country(value)
+    return datatypes.Country(value)
 
 
-def is_city(value, definition):
+def is_city(value):
     if len(value) != 2:
-        raise typeschema.ValidationError("")
+        return False
 
-    is_country(value[1], definition)
+    return is_country(value[1])
 
 
 types = {
-    'country': [{}, is_country],
-    'city': [{}, is_city]
+    'country': is_country,
+    'city': is_city,
 }
-
