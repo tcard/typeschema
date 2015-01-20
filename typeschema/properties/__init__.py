@@ -80,21 +80,24 @@ class property(_builtin_property):
 
 class nullable(property):
     """
-    Defines a nullable property for a class whose setter checks the input.
-
+    Defines a nullable property for a class whose setter checks that the input
+    is either a ``typeschema`` type or ``None``.
 
     >>> class MyClass(object):
-    ...     my_attr = int('my_attr', default=123)
+    ...     my_attr = nullable('my_attr', 'number', default=123.4)
     >>> my = MyClass()
     >>> my.my_attr
-    123
+    123.4
+    >>> my.my_attr = None
+    >>> print my.my_attr
+    None
     >>> my.my_attr = '123'
     Traceback (most recent call last):
         ...
     ValidationError: '123' is not valid under any of the given schemas
     <BLANKLINE>
     Failed validating 'anyOf' in schema:
-        {'anyOf': [{'type': 'integer'}, {'type': 'null'}]}
+        {'anyOf': [{'type': 'number'}, {'type': 'null'}]}
     <BLANKLINE>
     On instance:
         '123'
@@ -212,8 +215,8 @@ class list(nullable):
 
 class enum(property):
     """
-    Defines a property for a class whose setter checks that the input is an
-    enum or None.
+    Defines a property for a class whose setter checks that the input is in
+    a list of possible values or None.
 
     >>> class MyClass(object):
     ...     my_attr = enum('my_attr', ['a', 'b', 'C'])
