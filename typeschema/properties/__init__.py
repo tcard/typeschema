@@ -4,13 +4,26 @@ properties of a class.
 """
 
 import typeschema
+import copy
 
 _builtin_property = property
 
 
 class property(_builtin_property):
     """
-    Defines a property for a class whose setter checks the input.
+    Defines a property for a class whose setter checks the input against a
+    JSON schema.
+
+    Args:
+        name: Name of the property. The value of the property will be set in
+            the object's ``__dict__`` with the name as key.
+        schema: A JSON schema as defined in ``typeschema``.
+        default: A value It will be copied with ``copy.deepcopy``, so that
+            different instances of the class don't share this value.
+        check: A ``typeschema.Checker``.
+
+    Returns:
+        A ``property`` object.
 
     >>> class MyClass(object):
     ...     my_attr = property('my_attr', {'type': 'integer'})
@@ -47,6 +60,8 @@ class property(_builtin_property):
         default = self.default
 
         def getter(self):
+            if default is not None and not name in self.__dict__:
+                self.__dict__[name] = copy.deepcopy(default)
             return self.__dict__.get(name, default)
 
         return getter
