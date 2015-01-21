@@ -11,8 +11,8 @@ check = checker.check
 
 class ip(typeschema.properties.int):
     """
-    Defines a property for a class whose setter checks that the input is an
-    country (check typeschema.types.location for reference) or None.
+    Defines a property for a class whose setter checks that the input is a
+    valid ipv4 or None.
 
     >>> class MyClass(object):
     ...     my_attr = ip('my_attr', default='127.0.0.1')
@@ -29,7 +29,7 @@ class ip(typeschema.properties.int):
     """
     def __init__(self, name, default=None):
         super(typeschema.properties.int, self).__init__(
-            name, 'integer', default=self._ip2log(default)
+            name, 'ip', default=self._ip2log(default)
         )
 
     def _get_getter(self):
