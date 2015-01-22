@@ -3,7 +3,7 @@ networking related types:
 
 >>> from typeschema import Checker
 >>> checker = Checker()
->>> checker.extend(typeschema.types.network)
+>>> checker.extend(typeschema.types.network.types)
 >>> checker.check("127.0.0.1", {'type': 'ip'})
 >>> checker.check("Foo", {'type': 'ip'})
 Traceback (most recent call last):
@@ -19,16 +19,16 @@ On instance:
 
 import typeschema
 import socket
-import struct
 
 
-def is_ip(value, definition):
+def is_ip(value):
     try:
-        struct.unpack("!L", socket.inet_aton(value))[0]
+        socket.inet_aton(value)
+        return True
     except:
-        raise typeschema.ValidationError("Invalid IP address")
+        return False
 
 
 types = {
-    'ip': [{}, is_ip]
+    'ip': is_ip
 }
