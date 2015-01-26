@@ -1,4 +1,4 @@
-typeschema [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/Tyba/typeschema.svg)](https://travis-ci.org/Tyba/typeschema)
+typeschema [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/tyba/typeschema.svg)](https://travis-ci.org/tyba/typeschema)
 ===========
 
 Packages
@@ -43,7 +43,7 @@ setup(
     ...
     install_requires=dependency_links([
         ...
-        'http://github.com/Tyba/typeschema/tarball/master#egg=typeschema==<version>'
+        'http://github.com/tyba/typeschema/tarball/master#egg=typeschema==<version>'
         ...
     ])
 )
