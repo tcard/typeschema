@@ -1,4 +1,4 @@
-typeschem [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/Tyba/typeschema.svg)](https://travis-ci.org/Tyba/typeschema)
+typeschema [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/Tyba/typeschema.svg)](https://travis-ci.org/Tyba/typeschema)
 ===========
 
 Packages
@@ -11,6 +11,11 @@ Packages
 * typeschema.properties
 * typeschema.properties.time
 * typeschema.properties.location
+
+Compatibility
+-------------
+
+This library is developed and tested for Python 2.7. It is not compatible with Python 3 at the moment.
 
 Installation
 ------------
