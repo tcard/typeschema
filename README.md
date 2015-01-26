@@ -20,16 +20,25 @@ This library is developed and tested for Python 2.7. It is not compatible with P
 Installation
 ------------
 
-### Development mode
+### From PyPI
+
 ```sh
-sudo pip install -e .
+pip install typeschema
 ```
 
-Makes the package available on sys.path, but can still be edited directly from 
-its source checkout, thanks to a link.
+### Development mode
+
+Clone this repository, `cd` to it, and then:
+
+```sh
+pip install -e .
+```
+
+Makes the package available on `sys.path` symlinked so that it can be edited directly from 
+its source checkout.
 
 Caveats: If any other package install this one as dependency the link will be
-removed. And the command must be executed again.
+removed, and the command must be executed again.
 
 ### Production mode
 ```sh
@@ -41,11 +50,11 @@ At your setup.py add:
 ```python
 setup(
     ...
-    install_requires=dependency_links([
+    install_requires=[
         ...
-        'http://github.com/tyba/typeschema/tarball/master#egg=typeschema==<version>'
+        'typeschema==<version>'
         ...
-    ])
+    ]
 )
 ```
 
@@ -59,11 +68,11 @@ sudo pip install -r requirements.txt
 sphinx-build -b html . build
 ```
 
-After run this commands, the documention can be find at docs/build/index.html
+After running those commands, the documention can be find at docs/build/index.html.
 
 
 Tests
 -----
 
 Tests are in the `tests` folder.
-To run them, you need `nosetests` or `py.test`.
+Run them with `nosetests` or `py.test`.
