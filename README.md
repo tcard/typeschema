@@ -1,16 +1,16 @@
-typeschema [![Build Status](http://ci.tyba.cc/buildStatus/icon?job=Tyba/typeschema)](http://ci.tyba.cc/job/Tyba/job/typeschema/lastBuild/console) [![online documention](http://b.repl.ca/v1/online-documention-blue.png)](http://tyba:tyb4d0cs@docs.tyba.cc/typeschema/)
+typeschem [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/Tyba/typeschema.svg)](https://travis-ci.org/Tyba/typeschema)
 ===========
-
-
-Requirements
-------------
-
-* jsonschema == 2.4.0
 
 Packages
 --------
 
 * typeschema
+* typeschema.decorators
+* typeschema.types.time
+* typeschema.types.location
+* typeschema.properties
+* typeschema.properties.time
+* typeschema.properties.location
 
 Installation
 ------------
