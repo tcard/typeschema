@@ -56,7 +56,7 @@ class datetime(_time_property):
     def _convert(self, value):
         if isinstance(value, int) or isinstance(value, float):
             value = dt.datetime.fromtimestamp(value)
-        elif isinstance(value, str):
+        elif isinstance(value, basestring):
             value = dt.datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
         return value
 
@@ -71,7 +71,7 @@ class date(_time_property):
     >>> class MyClass(object):
     ...     my_attr = date('my_attr')
     >>> my = MyClass()
-    >>> my.my_attr = "2013-01-13"
+    >>> my.my_attr = u"2013-01-13"
     >>> my.my_attr
     datetime.date(2013, 1, ...)
     >>> import datetime as dt
@@ -85,7 +85,7 @@ class date(_time_property):
     def _convert(self, value):
         if isinstance(value, dt.datetime):
             value = value.date()
-        elif isinstance(value, str):
+        elif isinstance(value, basestring):
             value = dt.datetime.strptime(value, '%Y-%m-%d').date()
         return value
 
@@ -108,6 +108,6 @@ class time(_time_property):
         super(time, self).__init__('time', name, default=default)
 
     def _convert(self, value):
-        if isinstance(value, str):
+        if isinstance(value, basestring):
             value = dt.datetime.strptime(value, '%H:%M:%S').time()
         return value

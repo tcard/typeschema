@@ -47,9 +47,8 @@ class City(collections.namedtuple('City', ['name', 'country'])):
 
 
 def is_country(value):
-    if not isinstance(value, str):
+    if not isinstance(value, basestring):
         return False
-
     return datatypes.Country(value)
 
 
