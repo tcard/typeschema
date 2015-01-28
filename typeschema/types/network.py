@@ -17,8 +17,9 @@ On instance:
     'Foo'
 """
 
-import typeschema
 import socket
+
+import typeschema
 
 
 def is_ip(value):

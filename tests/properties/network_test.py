@@ -1,6 +1,7 @@
-import unittest
-import typeschema.properties.network
 import doctest
+import unittest
+
+import typeschema.properties.network
 
 
 class TestCase(unittest.TestCase):

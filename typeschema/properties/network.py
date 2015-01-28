@@ -1,7 +1,6 @@
 import typeschema.properties
 from typeschema.types.network import types
 
-
 _checker = typeschema.Checker()
 _checker.extend(types)
 checker = _checker.frozen()

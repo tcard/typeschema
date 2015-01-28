@@ -1,6 +1,7 @@
-import unittest
-import typeschema
 import doctest
+import unittest
+
+import typeschema
 
 
 class TestCase(unittest.TestCase):

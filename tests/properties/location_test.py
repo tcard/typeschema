@@ -1,6 +1,7 @@
-import unittest
-import typeschema.properties.location
 import doctest
+import unittest
+
+import typeschema.properties.location
 
 
 class TestCase(unittest.TestCase):

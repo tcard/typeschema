@@ -34,6 +34,7 @@ On instance:
 """
 
 import collections
+
 import incf.countryutils.datatypes as datatypes
 
 

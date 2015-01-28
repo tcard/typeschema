@@ -1,8 +1,8 @@
+import datetime as dt
+
 import typeschema
 from typeschema.properties import nullable
 from typeschema.types.time import types
-import datetime as dt
-
 
 _checker = typeschema.Checker()
 _checker.extend(types)

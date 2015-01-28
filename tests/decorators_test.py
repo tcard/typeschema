@@ -1,6 +1,7 @@
-import unittest
-import typeschema.decorators
 import doctest
+import unittest
+
+import typeschema.decorators
 
 
 class TestCase(unittest.TestCase):

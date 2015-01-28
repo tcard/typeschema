@@ -1,6 +1,7 @@
-import unittest
-import typeschema.types.time
 import doctest
+import unittest
+
+import typeschema.types.time
 
 
 class TestCase(unittest.TestCase):

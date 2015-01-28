@@ -1,8 +1,8 @@
+import incf.countryutils.datatypes as datatypes
+
 import typeschema.properties
 import typeschema.types.location
 from typeschema.types.location import City, types
-import incf.countryutils.datatypes as datatypes
-
 
 _checker = typeschema.Checker()
 _checker.extend(types)

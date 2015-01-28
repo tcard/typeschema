@@ -1,7 +1,8 @@
+import doctest
 import unittest
+
 import typeschema
 import typeschema.properties as ty
-import doctest
 
 
 class TestCase(unittest.TestCase):
