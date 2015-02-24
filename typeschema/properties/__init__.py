@@ -145,6 +145,9 @@ class float(nullable):
     >>> my = MyClass()
     >>> my.my_attr
     0.99
+    >>> my.my_attr = 1
+    >>> my.my_attr
+    1.0
     >>> my.my_attr = '0.99'
     Traceback (most recent call last):
         ...
@@ -158,6 +161,18 @@ class float(nullable):
     """
     def __init__(self, name, default=None):
         super(float, self).__init__(name, 'number', default=default)
+
+    def _get_setter(self):
+        parent_setter = super(float, self)._get_setter()
+        name = self.name
+
+        def setter(self, value):
+            # call the parent, let them do the checks
+            # cast to float if the check is passed
+            parent_setter(self, value)
+            self.__dict__[name] = _builtin_float(self.__dict__[name])
+
+        return setter
 
 
 class string(nullable):
