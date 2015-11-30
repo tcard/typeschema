@@ -1,4 +1,4 @@
-typeschema [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/tyba/typeschema.svg)](https://travis-ci.org/tyba/typeschema)
+typeschema [![image](https://readthedocs.org/projects/typeschema/badge/?version=latest)](http://typeschema.readthedocs.org/) [![Build Status](https://travis-ci.org/tcard/typeschema.svg)](https://travis-ci.org/tcard/typeschema)
 ===========
 
 Packages

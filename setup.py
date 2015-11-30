@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 import re
@@ -22,8 +23,8 @@ def get_version_from_init():
 setup(
     name='typeschema',
     description='A simpler type validator based on jsonschema.',
-    maintainer='Tyba',
-    maintainer_email='development@tyba.com',
+    maintainer='Toni Cárdenas',
+    maintainer_email='toni@tcardenas.me',
     version=get_version_from_init(),
     url='https://github.com/tyba/typeschema',
     license='MIT',
