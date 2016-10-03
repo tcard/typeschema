@@ -7,6 +7,7 @@ import typeschema
 import copy
 
 _builtin_property = property
+_builtin_float = float
 
 
 class property(_builtin_property):
@@ -132,6 +133,46 @@ class int(nullable):
     """
     def __init__(self, name, default=None):
         super(int, self).__init__(name, 'integer', default=default)
+
+
+class float(nullable):
+    """
+    Defines a property for a class whose setter checks that the input is a
+    float or None.
+
+    >>> class MyClass(object):
+    ...     my_attr = float('my_attr', default=0.99)
+    >>> my = MyClass()
+    >>> my.my_attr
+    0.99
+    >>> my.my_attr = 1
+    >>> my.my_attr
+    1.0
+    >>> my.my_attr = '0.99'
+    Traceback (most recent call last):
+        ...
+    ValidationError: '0.99' is not valid under any of the given schemas
+    <BLANKLINE>
+    Failed validating 'anyOf' in schema:
+        {'anyOf': [{'type': 'number'}, {'type': 'null'}]}
+    <BLANKLINE>
+    On instance:
+        '0.99'
+    """
+    def __init__(self, name, default=None):
+        super(float, self).__init__(name, 'number', default=default)
+
+    def _get_setter(self):
+        parent_setter = super(float, self)._get_setter()
+        name = self.name
+
+        def setter(self, value):
+            # call the parent, let them do the checks
+            # cast to float if the check is passed
+            parent_setter(self, value)
+            self.__dict__[name] = _builtin_float(self.__dict__[name])
+
+        return setter
 
 
 class string(nullable):
